@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<!--    <data>-->
+<!--        <variable-->
+<!--            name="data"-->
+<!--            type="com.eduside.bappenda.data.remote.response.DataSptpdSkpd" />-->
+<!--    </data>-->
+    
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/default_radius"
+        android:elevation="@dimen/default_elevation">
+
+
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llcContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/small_padding"
+            android:background="@drawable/bg_btn_primary_rounded"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:id="@+id/llcDataContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:layout_marginStart="50dp"
+                android:height="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_nama"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Item"
+                    android:gravity="center"
+                    android:layout_gravity="start"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppinsbold"
+                    android:textColor="@color/colorPrimaryDark"/>
+            </LinearLayout>
+
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3.5"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/img_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/small_padding"
+                    android:paddingVertical="@dimen/xs_padding"
+                    android:textColor="@color/white"
+                    android:background="@drawable/ic_align"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:textSize="@dimen/small_text"
+                    android:text="Normal" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/icon"
+            android:layout_width="51dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="5dp"
+            android:layout_gravity="center|start"
+            app:lottie_rawRes="@raw/bghome"
+            app:lottie_colorFilter="@color/colorPrimary"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+    </androidx.cardview.widget.CardView>
+</layout>

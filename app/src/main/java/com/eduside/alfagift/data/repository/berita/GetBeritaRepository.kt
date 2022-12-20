@@ -1,7 +1,5 @@
 package com.eduside.alfagift.data.repository.berita
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.eduside.alfagift.data.local.db.dao.BeritaDao
 import com.eduside.alfagift.data.local.db.entities.BeritaVo
@@ -36,6 +34,18 @@ class GetBeritaRepository @Inject constructor(
             }
         }
     }
+
+    suspend fun getSumber() {
+        withContext(ioDispatcher) {
+            val result = beritaDao.getSumber()
+            result.let {
+                beritaVoItem.postValue(it)
+            }
+        }
+    }
+
+
+
 
 
     //search id
@@ -82,9 +92,10 @@ class GetBeritaRepository @Inject constructor(
                 id++
                 beritaItem.add(
                     BeritaVo(
-                        name = listItem.source?.name.toString(),
+                        id = id,
+                        sumber = listItem.source?.name.toString(),
                         author = listItem.author,
-                        title = listItem.title,
+                        title = listItem.title.toString(),
                         description = listItem.description,
                         url = listItem.url,
                         urlToImage = listItem.urlToImage,

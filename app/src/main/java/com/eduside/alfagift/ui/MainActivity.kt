@@ -5,17 +5,20 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.eduside.alfagift.R
 import com.eduside.alfagift.databinding.ActivityMainBinding
 import com.eduside.alfagift.utils.showError
 import com.eduside.alfagift.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private val viewmodel : MainViewModel by viewModels()
+    @Inject lateinit var adapter: MainActivityAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding  = ActivityMainBinding.inflate(layoutInflater)
@@ -29,7 +32,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUi() {
+        binding.rvListBerita.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rvListBerita.adapter = adapter
         viewmodel.getBerita()
+        viewmodel.getSumber()
         initObserve()
         initAction()
     }
@@ -46,6 +53,10 @@ class MainActivity : AppCompatActivity() {
         }
         viewmodel.getBeritaResponse.observe(this) {
             Log.e("dapatdata",it.articles.toString())
+        }
+
+        viewmodel.readSumber.observe(this){
+            adapter.submitList(it)
         }
 
     }

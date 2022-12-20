@@ -22,4 +22,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    val readSumber = beritaRepository.beritaVoItem
+    fun getSumber() {
+        viewModelScope.launch {
+            beritaRepository.getSumber()
+        }
+    }
+
 }
