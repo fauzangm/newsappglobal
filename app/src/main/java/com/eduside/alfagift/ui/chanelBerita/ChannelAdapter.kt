@@ -1,4 +1,4 @@
-package com.eduside.alfagift.ui
+package com.eduside.alfagift.ui.chanelBerita
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.eduside.alfagift.data.local.db.entities.BeritaVo
 import com.eduside.alfagift.databinding.ItemListChannelBeritaItemBinding
+import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
-class MainActivityAdapter @Inject constructor() :
-    ListAdapter<BeritaVo, MainActivityAdapter.ViewHolder>(ListDiffUtill()) {
+class ChannelAdapter @Inject constructor() :
+    ListAdapter<BeritaVo, ChannelAdapter.ViewHolder>(ListDiffUtill()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -21,15 +22,9 @@ class MainActivityAdapter @Inject constructor() :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = getItem(position)
         holder.binding.tvNama.text = data.sumber
-//        Glide
-//            .with(holder.itemView.context)
-//            .load(data.image)
-//            .centerCrop()
-//            .placeholder(R.drawable.ic_defaultimage)
-//            .into(holder.binding.imgKambing)
-//        holder.binding.cvContainer.setOnClickListener {
-//            EventBus.getDefault().post(ItemDataKambingEvent(data))
-//        }
+        holder.binding.cvContainer.setOnClickListener {
+            EventBus.getDefault().post(ItemDataChannelEvent(data))
+        }
     }
 
     class ViewHolder(itemBinding: ItemListChannelBeritaItemBinding) :
@@ -39,7 +34,7 @@ class MainActivityAdapter @Inject constructor() :
 
     class ListDiffUtill : DiffUtil.ItemCallback<BeritaVo>() {
         override fun areItemsTheSame(oldItem: BeritaVo, newItem: BeritaVo): Boolean {
-            return newItem.id== oldItem.id
+            return newItem.title== oldItem.title
         }
 
         override fun areContentsTheSame(oldItem: BeritaVo, newItem: BeritaVo): Boolean {

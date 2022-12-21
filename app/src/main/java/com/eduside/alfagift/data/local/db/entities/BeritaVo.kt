@@ -1,6 +1,7 @@
 package com.eduside.alfagift.data.local.db.entities
 
 import android.os.Parcelable
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -14,10 +15,9 @@ data class BeritaVo(
 
 
     @PrimaryKey(autoGenerate = false)
-    var id:Int = 0 ,
-
-    @ColumnInfo(name = "title")
+    @NonNull
     var title: String = "",
+
     @ColumnInfo(name = "author")
     var author: String? = null,
     @ColumnInfo(name = "sumber")

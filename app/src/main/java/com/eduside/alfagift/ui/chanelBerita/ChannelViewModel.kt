@@ -1,4 +1,4 @@
-package com.eduside.alfagift.ui
+package com.eduside.alfagift.ui.chanelBerita
 
 import androidx.lifecycle.*
 import com.eduside.alfagift.data.repository.berita.GetBeritaRepository
@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class ChannelViewModel @Inject constructor(
     private val beritaRepository: GetBeritaRepository
 ) : ViewModel() {
 

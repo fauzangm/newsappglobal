@@ -23,13 +23,17 @@ interface BeritaDao {
     @Query("SELECT * FROM list_berita ORDER BY title ASC")
     suspend fun getBerita(): List<BeritaVo>
 
+    //getFromSUmber
+    @Query("SELECT * FROM list_berita WHERE sumber LIKE :channel")
+    fun getListBerita(channel: String): Flow<List<BeritaVo>>
+
 
     //getsumber
     @Query("SELECT * FROM list_berita GROUP BY sumber")
     suspend fun getSumber(): List<BeritaVo>
 
-    //getFromID
-    @Query("SELECT * FROM list_berita WHERE title LIKE :searchQuery")
-    fun getBerita(searchQuery: String): Flow<List<BeritaVo>>
+    //getFromTittle
+    @Query("SELECT * FROM list_berita WHERE title LIKE :searchQuery AND sumber LIKE :channel")
+    fun getBerita(searchQuery: String,channel: String): Flow<List<BeritaVo>>
 
 }

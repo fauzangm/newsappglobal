@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<!--    <data>-->
+<!--        <variable-->
+<!--            name="data"-->
+<!--            type="com.eduside.bappenda.data.remote.response.DataSptpdSkpd" />-->
+<!--    </data>-->
+    
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/default_radius"
+        android:elevation="@dimen/default_elevation">
+
+
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llcContainer"
+            android:layout_width="match_parent"
+            android:background="@drawable/bg_btn_primary_rounded"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/small_padding"
+            android:weightSum="10">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="center|start"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5" />
+
+
+            <LinearLayout
+                android:id="@+id/llcDataContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:layout_gravity="center"
+                android:height="30dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvTittle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Five Cheesy Party Snacks You Can Make With Two Ingredients (or Fewer)"
+                    android:gravity="center|start"
+                    android:layout_gravity="start"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppinsbold"
+                    android:textColor="@color/colorPrimaryDark"/>
+            </LinearLayout>
+
+
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,27 +1,33 @@
-package com.eduside.alfagift.ui
+package com.eduside.alfagift.ui.chanelBerita
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SearchView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.eduside.alfagift.R
 import com.eduside.alfagift.databinding.ActivityMainBinding
+import com.eduside.alfagift.ui.listBerita.ListBeritaActivity
 import com.eduside.alfagift.utils.showError
 import com.eduside.alfagift.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class ChannelActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
-    private val viewmodel : MainViewModel by viewModels()
-    @Inject lateinit var adapter: MainActivityAdapter
+    private val viewmodel: ChannelViewModel by viewModels()
+
+    @Inject
+    lateinit var adapter: ChannelAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding  = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         try {
@@ -38,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         viewmodel.getBerita()
         viewmodel.getSumber()
         initObserve()
-        initAction()
     }
 
     private fun initObserve() {
@@ -52,16 +57,34 @@ class MainActivity : AppCompatActivity() {
 
         }
         viewmodel.getBeritaResponse.observe(this) {
-            Log.e("dapatdata",it.articles.toString())
+            Log.e("dapatdata", it.articles.toString())
         }
 
-        viewmodel.readSumber.observe(this){
+        viewmodel.readSumber.observe(this) {
             adapter.submitList(it)
         }
 
     }
 
-    private fun initAction() {
-
+    @Subscribe
+    fun onItemClickedEvent(event: ItemDataChannelEvent) {
+        val intent = Intent(this, ListBeritaActivity::class.java)
+        intent.putExtra(ListBeritaActivity.SUMBER, event.data.sumber)
+        startActivity(intent)
     }
+
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+
+
+
 }

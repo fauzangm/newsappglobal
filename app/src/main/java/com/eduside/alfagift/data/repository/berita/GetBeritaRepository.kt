@@ -26,14 +26,6 @@ class GetBeritaRepository @Inject constructor(
     private var id = 0
 
 
-    suspend fun getBerita() {
-        withContext(ioDispatcher) {
-            val result = beritaDao.getBerita()
-            result.let {
-                beritaVoItem.postValue(it)
-            }
-        }
-    }
 
     suspend fun getSumber() {
         withContext(ioDispatcher) {
@@ -46,11 +38,14 @@ class GetBeritaRepository @Inject constructor(
 
 
 
+    fun getListBerita(channel: String): Flow<List<BeritaVo>> {
+        return beritaDao.getListBerita(channel)
+    }
 
 
-    //search id
-    fun getSearchBerita(searchQuery: String): Flow<List<BeritaVo>> {
-        return beritaDao.getBerita(searchQuery)
+    //search tittle
+    fun getSearchBerita(searchQuery: String,channel: String): Flow<List<BeritaVo>> {
+        return beritaDao.getBerita(searchQuery,channel)
     }
 
     suspend fun getBeritaItem(): GetBeritaResult {
@@ -58,8 +53,8 @@ class GetBeritaRepository @Inject constructor(
             loading.postValue(true)
             try {
                 val check = beritaDao.getBerita()
+                val getResponse = apiServices.getDataBerita()
                 if (check.isEmpty()) {
-                    val getResponse = apiServices.getDataBerita()
                     if (getResponse.isSuccessful) {
                         getResponse.body()?.let {
                             it.articles?.forEach { data ->
@@ -92,7 +87,6 @@ class GetBeritaRepository @Inject constructor(
                 id++
                 beritaItem.add(
                     BeritaVo(
-                        id = id,
                         sumber = listItem.source?.name.toString(),
                         author = listItem.author,
                         title = listItem.title.toString(),
