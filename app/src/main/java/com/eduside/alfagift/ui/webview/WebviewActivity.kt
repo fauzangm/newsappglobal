@@ -1,35 +1,23 @@
 package com.eduside.alfagift.ui.webview
 
-import android.content.Intent
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
-import android.view.View
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.SearchView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.eduside.alfagift.databinding.ActivityMainBinding
-import com.eduside.alfagift.databinding.ActivitySplashBinding
 import com.eduside.alfagift.databinding.ActivityWebviewBinding
-import com.eduside.alfagift.ui.chanelBerita.ChannelActivity
-import com.eduside.alfagift.ui.chanelBerita.ChannelViewModel
-import com.eduside.alfagift.ui.listBerita.ListBeritaActivity
-import com.eduside.alfagift.utils.showError
-import com.eduside.alfagift.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import javax.inject.Inject
+import splitties.toast.toast
+import timber.log.Timber
 
 @AndroidEntryPoint
 class WebviewActivity : AppCompatActivity() {
     private var _binding: ActivityWebviewBinding? = null
     private val binding get() = _binding!!
 
-    companion object{
+    companion object {
         val URL = "URL"
     }
 
@@ -45,21 +33,39 @@ class WebviewActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun initUi() {
-        binding.webView.webViewClient = WebViewClient()
-        binding.webView.loadUrl(intent.getStringExtra(URL).toString())
+        binding.webView.webViewClient = CustomWebViewClient(binding.pbLoading)
         binding.webView.settings.javaScriptEnabled = true
+        binding.webView.addJavascriptInterface(HtmlReaderInterface(), "Subsciribe")
+        binding.webView.loadUrl(intent.getStringExtra(URL).toString())
         binding.webView.settings.setSupportZoom(true)
+
 
     }
 
+
     override fun onBackPressed() {
-        if (binding.webView.canGoBack()){
+        if (binding.webView.canGoBack()) {
             binding.webView.goBack()
-        }else{
+        } else {
             super.onBackPressed()
         }
 
+    }
+
+    private inner class HtmlReaderInterface() {
+        @JavascriptInterface
+        fun onSuccessMessage(html: String) {
+            Timber.e("onsucces message")
+            if (html.contains("\"product__single product type-product post-16 status-publish first instock product_cat-subscriptions has-post-thumbnail sold-individually purchasable product-type-variable-subscription")) {
+                toast("Berhasil Close")
+                finish()
+            } else if (html.contains("class=\"woo-content container\"")) {
+                toast("Gagal Close")
+                finish()
+            }
+        }
     }
 
 
