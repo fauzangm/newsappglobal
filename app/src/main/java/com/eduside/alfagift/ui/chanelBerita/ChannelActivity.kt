@@ -22,6 +22,7 @@ class ChannelActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private val viewmodel: ChannelViewModel by viewModels()
+    private val viewmodelBerita: BeritaViewModel by viewModels()
 
     @Inject
     lateinit var adapter: ChannelAdapter
@@ -41,22 +42,22 @@ class ChannelActivity : AppCompatActivity() {
         binding.rvListBerita.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvListBerita.adapter = adapter
-        viewmodel.getBerita()
+        viewmodelBerita.getBerita()
         viewmodel.getSumber()
         initObserve()
     }
 
     private fun initObserve() {
-        viewmodel.getBeritaError.observe(this) {
+        viewmodelBerita.getBeritaError.observe(this) {
             showError(this, it)
         }
-        viewmodel.getBeritaLoading.observe(this) {
+        viewmodelBerita.getBeritaLoading.observe(this) {
             binding.pbSubmitRegistrasi.visibility = View.VISIBLE
             showLoading(this, binding.pbSubmitRegistrasi, it)
 
 
         }
-        viewmodel.getBeritaResponse.observe(this) {
+        viewmodelBerita.getBeritaResponse.observe(this) {
             Log.e("dapatdata", it.articles.toString())
         }
 

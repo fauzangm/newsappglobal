@@ -35,6 +35,7 @@ class WebviewActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initUi() {
+
         binding.webView.webViewClient = CustomWebViewClient(binding.pbLoading)
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.addJavascriptInterface(HtmlReaderInterface(), "Subsciribe")
@@ -57,6 +58,7 @@ class WebviewActivity : AppCompatActivity() {
     private inner class HtmlReaderInterface() {
         @JavascriptInterface
         fun onSuccessMessage(html: String) {
+            Timber.e(html)
             Timber.e("onsucces message")
             if (html.contains("\"product__single product type-product post-16 status-publish first instock product_cat-subscriptions has-post-thumbnail sold-individually purchasable product-type-variable-subscription")) {
                 toast("Berhasil Close")

@@ -10,7 +10,7 @@ interface ApiServices {
     @GET("everything")
     suspend fun getDataBerita(
         @Query("q") peruntukan: String = "Apple",
-        @Query("from") batasBawah: String = "2023-01-10",
+        @Query("from") batasBawah: String = "2023-04-10",
         @Query("sortBy") batasBawah_Opt: String = "popularity"
     ):Response<GetDataBeritaResponse>
 

@@ -1,6 +1,7 @@
 package com.eduside.alfagift.ui.chanelBerita
 
 import androidx.lifecycle.*
+import com.eduside.alfagift.data.repository.berita.BeritaServerRepository
 import com.eduside.alfagift.data.repository.berita.GetBeritaRepository
 import com.eduside.alfagift.data.repository.berita.GetBeritaResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChannelViewModel @Inject constructor(
-    private val beritaRepository: GetBeritaRepository
+    private val beritaRepository: GetBeritaRepository,
 ) : ViewModel() {
 
     private val getBerita = MutableLiveData<GetBeritaResult>()
