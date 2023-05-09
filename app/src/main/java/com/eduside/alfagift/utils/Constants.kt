@@ -17,3 +17,5 @@ const val TIME_FORMAT: String = "HH:mm:ss"
 const val MAX_IMAGE_WEIGHT = 999
 const val MAX_IMAGE_SIZE = 800
 const val MAX_FILE_SIZE = 1000000
+
+var IsSync = "0"

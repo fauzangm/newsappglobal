@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class Error(
-    @SerializedName("message") val message: String?
+    @SerializedName("status") val message: String?
 ) : Parcelable {
 
     companion object {

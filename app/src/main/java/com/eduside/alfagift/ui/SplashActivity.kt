@@ -15,6 +15,7 @@ import com.eduside.alfagift.databinding.ActivitySplashBinding
 import com.eduside.alfagift.ui.chanelBerita.ChannelActivity
 import com.eduside.alfagift.ui.chanelBerita.ChannelViewModel
 import com.eduside.alfagift.ui.listBerita.ListBeritaActivity
+import com.eduside.alfagift.utils.IsSync
 import com.eduside.alfagift.utils.showError
 import com.eduside.alfagift.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,8 +43,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initUi() {
-
-
+        IsSync = "0"
         viewmodel.getBerita()
         initObserve()
     }

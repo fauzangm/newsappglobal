@@ -1,15 +1,15 @@
 package com.eduside.alfagift.test
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
 import com.eduside.alfagift.base.BaseTest
 import com.eduside.alfagift.base.getOrAwaitValue
+import com.eduside.alfagift.data.local.db.AppDB
 import com.eduside.alfagift.data.local.db.dao.BeritaDao
 import com.eduside.alfagift.data.remote.ApiServices
 import com.eduside.alfagift.data.repository.berita.BeritaServerRepository
-import com.eduside.alfagift.data.repository.berita.GetBeritaRepository
 import com.eduside.alfagift.ui.chanelBerita.BeritaViewModel
-import com.eduside.alfagift.ui.chanelBerita.ChannelViewModel
-import com.eduside.alfagift.ui.listBerita.ListBeritaViewModel
 import com.google.common.truth.Truth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,6 +30,8 @@ class BeritaVMGetBeritaErrorTest : BaseTest() {
 
     private val testDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
 
+    lateinit var appDb : AppDB
+    lateinit var beritaDao: BeritaDao
     lateinit var viewModel: BeritaViewModel
     lateinit var beritaRepository: BeritaServerRepository
     lateinit var apiServices: ApiServices
@@ -43,13 +45,18 @@ class BeritaVMGetBeritaErrorTest : BaseTest() {
         super.setup()
         MockitoAnnotations.openMocks(this)
         Dispatchers.setMain(testDispatcher)
-
+        //setup ROOM
+        appDb = Room.inMemoryDatabaseBuilder(
+            ApplicationProvider.getApplicationContext(),
+            AppDB::class.java
+        ).allowMainThreadQueries().build()
+        beritaDao = appDb.beritaDao()
         // setup MockWebServer
         server = this.mockWebServer
         val baseUrlApi = server.url("/error/")
 
         apiServices = getClient(baseUrlApi)
-        beritaRepository = BeritaServerRepository(apiServices, testDispatcher)
+        beritaRepository = BeritaServerRepository(apiServices, testDispatcher,beritaDao)
         viewModel = BeritaViewModel(beritaRepository)
     }
 
@@ -62,7 +69,7 @@ class BeritaVMGetBeritaErrorTest : BaseTest() {
     @Test
     fun `Ketika request getBerita(), response gagal`() {
         runBlocking {
-            viewModel.getBerita()
+            viewModel.getSyncBerita()
             val request = server.takeRequest()
             Truth.assertThat(request.requestLine).isEqualTo("GET /error/everything?q=Apple&from=2023-04-10&sortBy=popularity HTTP/1.1")
             Truth.assertThat(viewModel.getBeritaError.getOrAwaitValue())

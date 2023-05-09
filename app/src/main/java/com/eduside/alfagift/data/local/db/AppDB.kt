@@ -11,7 +11,7 @@ import com.eduside.alfagift.data.local.db.entities.BeritaVo
     [
         BeritaVo::class
     ],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 

@@ -1,15 +1,21 @@
 package com.eduside.alfagift.ui.chanelBerita
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.SearchView
+import android.view.Window
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.eduside.alfagift.R
 import com.eduside.alfagift.databinding.ActivityMainBinding
 import com.eduside.alfagift.ui.listBerita.ListBeritaActivity
+import com.eduside.alfagift.utils.EspressoIdlingResource
+import com.eduside.alfagift.utils.IsSync
 import com.eduside.alfagift.utils.showError
 import com.eduside.alfagift.utils.showLoading
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +29,7 @@ class ChannelActivity : AppCompatActivity() {
     private val binding get() = _binding!!
     private val viewmodel: ChannelViewModel by viewModels()
     private val viewmodelBerita: BeritaViewModel by viewModels()
+    private lateinit var dialog : Dialog
 
     @Inject
     lateinit var adapter: ChannelAdapter
@@ -42,22 +49,56 @@ class ChannelActivity : AppCompatActivity() {
         binding.rvListBerita.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvListBerita.adapter = adapter
-        viewmodelBerita.getBerita()
+        if (IsSync == "0"){
+            viewmodel.getBerita()
+        }
         viewmodel.getSumber()
         initObserve()
+        initAction()
+        initDialog()
     }
 
+    private fun initAction() {
+        binding.btnSinkronData.setOnClickListener {
+            dialog.show()
+            EspressoIdlingResource.increment()
+            viewmodelBerita.getSyncBerita()
+        }
+    }
+    private fun initDialog() {
+        dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_loading)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
     private fun initObserve() {
         viewmodelBerita.getBeritaError.observe(this) {
+            EspressoIdlingResource.decrement()
             showError(this, it)
         }
         viewmodelBerita.getBeritaLoading.observe(this) {
-            binding.pbSubmitRegistrasi.visibility = View.VISIBLE
-            showLoading(this, binding.pbSubmitRegistrasi, it)
+            showLoading(this, dialog, it)
 
 
         }
         viewmodelBerita.getBeritaResponse.observe(this) {
+            EspressoIdlingResource.decrement()
+            IsSync = "1"
+            startActivity(Intent(this@ChannelActivity,ChannelActivity::class.java))
+            finish()
+            Log.e("dapatdata", it.articles.toString())
+        }
+
+        viewmodel.getBeritaError.observe(this) {
+            showError(this, it)
+        }
+        viewmodel.getBeritaLoading.observe(this) {
+            showLoading(this, dialog, it)
+
+
+        }
+        viewmodel.getBeritaResponse.observe(this) {
             Log.e("dapatdata", it.articles.toString())
         }
 
@@ -86,6 +127,10 @@ class ChannelActivity : AppCompatActivity() {
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        dialog.dismiss()
+    }
 
 
 }

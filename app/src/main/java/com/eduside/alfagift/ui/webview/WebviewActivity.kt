@@ -8,6 +8,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.eduside.alfagift.databinding.ActivityWebviewBinding
+import com.eduside.alfagift.utils.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 import splitties.toast.toast
 import timber.log.Timber
@@ -35,7 +36,7 @@ class WebviewActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun initUi() {
-
+        EspressoIdlingResource.increment()
         binding.webView.webViewClient = CustomWebViewClient(binding.pbLoading)
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.addJavascriptInterface(HtmlReaderInterface(), "Subsciribe")

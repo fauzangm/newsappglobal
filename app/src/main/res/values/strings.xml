@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">seleksi alfagift</string>
+    <string name="app_name">News Apps</string>
     <string name="home_global_news">Global News</string>
     <string name="tanda">:</string>
     <string name="detail_tittle">Tittle</string>
     <string name="detail_link_url">Link url</string>
     <string name="detail_content">Content</string>
     <string name="detail_sumber">Sumber</string>
+    <string name="sinkron_data">Sinkron Data</string>
 </resources>

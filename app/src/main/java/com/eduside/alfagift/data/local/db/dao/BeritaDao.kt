@@ -18,6 +18,10 @@ interface BeritaDao {
     @Delete
     suspend fun deletBerita(item: BeritaVo)
 
+    //deletAll
+    @Query("DELETE FROM list_berita ")
+    suspend fun deletAllBerita()
+
 
     //getAll
     @Query("SELECT * FROM list_berita ORDER BY title ASC")

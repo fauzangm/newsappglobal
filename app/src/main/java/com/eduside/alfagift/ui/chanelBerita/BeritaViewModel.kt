@@ -2,7 +2,6 @@ package com.eduside.alfagift.ui.chanelBerita
 
 import androidx.lifecycle.*
 import com.eduside.alfagift.data.repository.berita.BeritaServerRepository
-import com.eduside.alfagift.data.repository.berita.GetBeritaRepository
 import com.eduside.alfagift.data.repository.berita.GetBeritaResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,9 +16,9 @@ class BeritaViewModel @Inject constructor(
     val getBeritaError = Transformations.switchMap(getBerita) { it.error }
     val getBeritaLoading = Transformations.switchMap(getBerita) { it.loading }
     val getBeritaResponse = Transformations.switchMap(getBerita) { it.listJenisBerita }
-    fun getBerita() {
+    fun getSyncBerita() {
         viewModelScope.launch {
-            getBerita.postValue(beritaServerRepository.getBeritaItem())
+            getBerita.postValue(beritaServerRepository.getSyncBeritaItem())
         }
     }
 

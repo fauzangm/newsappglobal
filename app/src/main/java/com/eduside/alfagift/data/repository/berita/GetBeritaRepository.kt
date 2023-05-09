@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.eduside.alfagift.data.local.db.dao.BeritaDao
 import com.eduside.alfagift.data.local.db.entities.BeritaVo
 import com.eduside.alfagift.data.remote.ApiServices
+import com.eduside.alfagift.data.remote.Error.Companion.getErrorMessage
 import com.eduside.alfagift.data.remote.response.ArticlesItem
 import com.eduside.alfagift.data.remote.response.GetDataBeritaResponse
 import com.eduside.bappenda.di.IoDispatcher
@@ -63,7 +64,7 @@ class GetBeritaRepository @Inject constructor(
                             regItem.postValue(it)
                         }
                     } else {
-                        error.postValue(getResponse.errorBody()?.string().toString())
+                        error.postValue(getResponse.errorBody()?.string()?.let { getErrorMessage(it) })
                     }
                 }
 
